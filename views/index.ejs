@@ -1,34 +1,43 @@
 <div class="container">
-  <h1>Index</h1>
-  <h4>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</h4>
+  <h1>Dead <span class="text-image">Runners</span> Prod.</h1>
+  <h4>Royalty free beats</h4>
+  <p>All beats are £9.99. All beats are 100% royalty free.</p>
+
   <div class="row">
-  <% songs.forEach((song) => { %>
-  <div class="col-sm-4">
-    <div class="song_image">
+<% for(var i=0; i< tracks.length; i++) {%>
+    <div class="song-tile col-sm-6 col-lg-4 text-center">
+      <div class="song_image">
+        <img class="spin" src="<%= tracks[i].img %>" alt="">
+        <audio id="player<%=tracks[i]._id %>" src="<%= tracks[i].demo_source %>" loop></audio>
+        <div class="audio-player">
+          <button class="play" onclick="document.getElementById('player<%=tracks[i]._id %>').play()"><i class="fas fa-play fa-4x"></i></button>
+          <button class="pause hide" onclick="document.getElementById('player<%=tracks[i]._id %>').pause()"><i class="fas fa-pause fa-4x"></i></button>
+        </div>
+      </div>
+      <h2><%= tracks[i].name %></h2>
+      <p>
+        <%= tracks[i].description %>
+      </p>
 
+
+      <h5>£<%= tracks[i].price / 100 %></h5>
+      <form action="/charge" method="POST">
+        <input type="hidden" name="name" value="<%= tracks[i].name %>">
+        <input type="hidden" name="description" value="<%= tracks[i].description %>">
+        <input type="hidden" name="total_source" value="<%= tracks[i].total_source %>">
+        <script
+          src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+          data-key="pk_test_CGQfgCOAuB880dmwwD4LWaiS"
+          data-amount= <%= tracks[i].price %>
+          data-name="<%= tracks[i].name %>"
+          data-description="<%= tracks[i].description %>"
+          data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+          data-locale="auto"
+          data-label="Buy Now"
+          data-currency="gbp">
+        </script>
+      </form>
     </div>
-    <div><%= song.name %></div>
-    <div>
-      <%= song.description %>
-    </div>
-    <div><%= song.demo_source %></div>
-    <div>£<%= song.price %></div>
-    <form action="/charge" method="POST">
-      <script
-        src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-        data-key="pk_test_TYooMQauvdEDq54NiTphI7jx"
-        data-amount=<%= song.price %>
-        data-name=<%= song.name %>
-        data-description=<%= song.description %>
-        data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-        data-locale="auto"
-        data-zip-code="true">
-      </script>
-    </form>
-  </div>
-
-
-
-  <% }) %>
+  <% } %>
     </div>
 </div>

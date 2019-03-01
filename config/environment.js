@@ -1,5 +1,5 @@
-const stripePublishableKey = process.env.STRIPE_PUBLISHABLE_KEY;
-const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+const stripePublishableKey = "pk_test_CGQfgCOAuB880dmwwD4LWaiS";
+const stripeSecretKey = "sk_test_gsF7ubnlEZsQvxDjBiYPv8xy";
 
 module.exports = {
   stripePublishableKey,
