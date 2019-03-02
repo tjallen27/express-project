@@ -1,13 +1,12 @@
 <div class="container">
-  <h1>Dead <span class="text-image">Runners</span> Prod.</h1>
-  <h4>Royalty free beats</h4>
-  <p>All beats are £9.99. All beats are 100% royalty free.</p>
-
+    <h1>Dead <span class="text-image">Runners</span> Prod.</h1>
+  <h4>Royalty free beats by Dead Runners Productions.</h4>
+  <p>All beats are £9.99. No licenses. All 100% royalty free.</p>
   <div class="row">
 <% for(var i=0; i< tracks.length; i++) {%>
-    <div class="song-tile col-sm-6 col-lg-4 text-center">
+    <div class="song-tile col-sm-12 col-md-6 col-lg-4 text-center">
       <div class="song_image">
-        <img class="spin" src="<%= tracks[i].img %>" alt="">
+        <img class="track-image" src="<%= tracks[i].img %>" alt="">
         <audio id="player<%=tracks[i]._id %>" src="<%= tracks[i].demo_source %>" loop></audio>
         <div class="audio-player">
           <button class="play" onclick="document.getElementById('player<%=tracks[i]._id %>').play()"><i class="fas fa-play fa-4x"></i></button>
@@ -15,11 +14,14 @@
         </div>
       </div>
       <h2><%= tracks[i].name %></h2>
+      <p><strong>Tags:</strong>
+        <% for(let j = 0; j < tracks[i].tags.length; j++){ %>
+          <span><%=tracks[i].tags[j]%></span>
+        <% } %>
+      </p>
       <p>
         <%= tracks[i].description %>
       </p>
-
-
       <h5>£<%= tracks[i].price / 100 %></h5>
       <form action="/charge" method="POST">
         <input type="hidden" name="name" value="<%= tracks[i].name %>">
@@ -30,8 +32,6 @@
           data-key="pk_test_CGQfgCOAuB880dmwwD4LWaiS"
           data-amount= <%= tracks[i].price %>
           data-name="<%= tracks[i].name %>"
-          data-description="<%= tracks[i].description %>"
-          data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
           data-locale="auto"
           data-label="Buy Now"
           data-currency="gbp">

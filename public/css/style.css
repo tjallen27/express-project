@@ -1,8 +1,44 @@
+#loader {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  z-index: 9999;
+  background: url("https://cdn.dribbble.com/users/563824/screenshots/3241383/shot.gif")
+    no-repeat center center rgba(255, 255, 255, 1);
+}
+
+.fade-out {
+  visibility: hidden;
+  animation-name: fade;
+  animation-duration: 0.5s;
+  animation-iteration-count: 1;
+}
+@keyframes fade {
+  0% {
+    opacity: 1;
+    visibility: visible;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
 body {
   color: #222;
+  padding: 10px 0;
 }
 h1 {
   font-size: 92px;
+}
+ul {
+  display: inline;
+  padding: 0;
+  margin: 0;
+}
+li {
+  display: inline;
+  margin: 0;
+  padding: 0;
 }
 .text-image {
   color: #222; /* Fallback: assume this color ON TOP of image */
@@ -18,8 +54,26 @@ h1 {
   position: relative;
 }
 
+.wobble {
+  animation-name: wobble;
+  animation-duration: 0.75s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes wobble {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 .song-tile {
-  margin: 10px 0;
+  margin: 0 0 20px;
 }
 .song-tile h2 {
   margin: 5px;
@@ -75,6 +129,12 @@ button {
   border-radius: 0 !important;
   border: none;
 }
+button:focus {
+  outline: none !important;
+}
+button.download {
+  font-size: 2em;
+}
 a {
   height: auto !important;
   width: auto !important;
@@ -83,11 +143,15 @@ a {
   color: #222 !important;
 
   outline: none !important;
-  padding: 5px 15px !important;
+  padding: 10px 25px !important;
   box-shadow: none !important;
   padding: 0;
   margin: 0;
 }
+a:focus {
+  outline: none !important;
+}
+
 .stripe-button-el span {
   font-size: 22px !important;
   border-radius: 0 !important;
@@ -104,6 +168,7 @@ a {
   outline: none !important;
 }
 .success {
+  padding-top: 50px;
   z-index: 10;
 }
 .success h1 {

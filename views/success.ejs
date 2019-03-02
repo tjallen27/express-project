@@ -1,9 +1,9 @@
-<div class="container text-center success">
-  <button type="button" name="button"><a href="/">Back to home</a></button>
+<div class="container success">
   <div>
     <h2>You are now the proud owner of <%= name %>!</h2>
       <h4>Please click the link below to download the file!</h4>
-      <button type="button" name="button"><a href="./dist/image.jpg"  download>Download <%= name %></a></button>
+      <div><button class="download" type="button" name="button"><a href="./dist/<%= song_link %>"  download>Download <%= name %></a></button></div>
+      <div><button type="button" name="button"><a href="/">Back to home</a></button></div>
 
   </div>
 </div>
