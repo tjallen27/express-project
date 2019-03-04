@@ -12,13 +12,14 @@ const download = require("download");
 const request = require("request");
 const MongoClient = require("mongodb").MongoClient;
 const app = express();
+const port = 8080;
 let db;
 MongoClient.connect(
   "mongodb://tjallen27:3crdwfkk@ds155045.mlab.com:55045/blackout-test",
   (err, client) => {
     if (err) return console.log(err);
     db = client.db("blackout-test");
-    app.listen(process.env.PORT);
+    app.listen(process.env.PORT || port);
   }
 );
 
@@ -61,22 +62,41 @@ app.post("/charge", (req, res) => {
       })
       // when the payment is successful, download the file locally
       // so we can use it on the success page
+
       .then(() => {
-        download(req.body.total_source, "dist").then(() => {
-          console.log("done!");
-        });
+        Promise.resolve()
+          .then(() => {
+            return new Promise(resolve => {
+              console.log("Started download");
+              var download = function(uri, filename, callback) {
+                request.head(uri, function(err, res, body) {
+                  console.log("content-type:", res.headers["content-type"]);
+                  console.log("content-length:", res.headers["content-length"]);
+
+                  request(uri)
+                    .pipe(fs.createWriteStream(filename))
+                    .on("close", callback);
+                });
+              };
+
+              download(req.body.total_source, "easy-tripping.mp3", function() {
+                console.log("done");
+                resolve();
+              });
+            });
+          })
+          .then(() => {
+            console.log("success page rendered");
+            res.render("success", {
+              song_link: req.body.total_source.substring(
+                req.body.total_source.lastIndexOf("/") + 1,
+                req.body.total_source.length
+              ),
+              song_source: req.body.total_source,
+              name: req.body.name
+            });
+          });
       })
-      // then render the success page
-      .then(
-        res.render("success", {
-          song_link: req.body.total_source.substring(
-            req.body.total_source.lastIndexOf("/") + 1,
-            req.body.total_source.length
-          ),
-          song_source: req.body.total_source,
-          name: req.body.name
-        })
-      )
       .catch(err);
   })();
 });
