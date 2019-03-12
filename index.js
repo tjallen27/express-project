@@ -11,14 +11,13 @@ const download = require("download");
 const request = require("request");
 const MongoClient = require("mongodb").MongoClient;
 const app = express();
-const port = 8080;
 let db;
 MongoClient.connect(
   "mongodb://tjallen27:3crdwfkk@ds155045.mlab.com:55045/blackout-test",
   (err, client) => {
     if (err) return console.log(err);
     db = client.db("blackout-test");
-    app.listen(process.env.PORT || port);
+    app.listen(process.env.PORT);
   }
 );
 
